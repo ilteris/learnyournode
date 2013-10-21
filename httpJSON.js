@@ -17,6 +17,7 @@ var routes = {
 }
 
     var server = http.createServer(function(request, response) {
+        console.log("request is " + request);
     var parsedUrl = url.parse(request.url, true);
     var resource = routes[parsedUrl.pathname];
     if(resource) {
