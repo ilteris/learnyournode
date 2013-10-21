@@ -4,11 +4,11 @@ var url = require('url');
 
 var routes = {
     "api/parsetime": function(parsedUrl) {
-        d = new Date(parsedUrl.query.iso);
+       var d = new Date(parsedUrl.query.iso);
         return {
-            hour: d.getHours();
-            minute: d.getMinutes();
-            second: d.getSeconds();
+            hour: d.getHours(),
+            minute: d.getMinutes(),
+            second: d.getSeconds()
         };
     },
     "api/unixtime": function(parsedUrl) {
@@ -16,9 +16,9 @@ var routes = {
     }
 }
 
-server = http.createServer(function(reqest, response) {
-    parsedUrl = url.parse(request.url, true);
-    resource = routes[parsedUrl.pathname];
+    var server = http.createServer(function(request, response) {
+    var parsedUrl = url.parse(request.url, true);
+    var resource = routes[parsedUrl.pathname];
     if(resource) {
         response.writeHead(200, {"Content-Type": "application/json"});
         response.end(JSON.stringify(resource(parsedUrl)));
