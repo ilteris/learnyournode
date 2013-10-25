@@ -4,6 +4,7 @@ var split = require('split');
 var line = 0;
 var tr = through(function write(buf) {
     line++;
+    console.log("line is " + line + "\n");
     if (isOdd(line)) {
         this.queue(buf.toString().toLowerCase());
     }
