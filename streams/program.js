@@ -1,3 +1,14 @@
-var fs = require('fs');
+var through = require('through');
+var tr = through(write, end);
+tr.write = write;
+tr.end = end;
 
-process.stdin.pipe(process.stdout);
+function write(buf) {
+    this.queue(buf.toString().toUpperCase());
+}
+
+function end() { 
+    this.queue(null); //don't expect any more data
+}
+
+process.stdin.pipe(tr).pipe(process.stdout);
