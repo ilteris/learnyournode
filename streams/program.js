@@ -1,14 +1,18 @@
 var through = require('through');
-var tr = through(write, end);
-tr.write = write;
-tr.end = end;
+var split = require('split');
 
-function write(buf) {
-    this.queue(buf.toString().toUpperCase());
-}
-
-function end() { 
+var line = 0;
+var tr = through(function write(buf) {
+    line++;
+    if (isOdd(line)) {
+        this.queue(buf.toString().toLowerCase());
+    }
+    else {
+        this.queue(buf.toString().toUpperCase());
+    }
+}, function end() {
     this.queue(null); //don't expect any more data
-}
+});
 
+function isOdd(num) { return num % 2; }
 process.stdin.pipe(tr).pipe(process.stdout);
