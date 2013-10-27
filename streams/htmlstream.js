@@ -1,25 +1,13 @@
 var trumpet = require('trumpet');
 var through = require ('through');
 
+var tr = trumpet();
+var loud = tr.select('.loud').createStream();
 
-function changeToUpperCase() {
-	var tr = trumpet();
-	return through(
-		function write( buf ) {
-		this.emit('data', buf);
-		//this.emit(ws.toString().toUpperCase());
-		tr.pipe(this);
-		var ws = tr.select('.loud').createWriteStream();
-		ws.end('test');
-		console.log(ws);
-
-	},
-	function end() {
-		this.emit(null);
-	}
-	)
-}
+loud.pipe(through (function (buf) {
+	this.queue(buf.toString().toUpperCase())
+})).pipe(loud);
 
 process.stdin
-.pipe(changeToUpperCase())
-//.pipe(process.stdout);
+.pipe(tr)
+.pipe(process.stdout);
