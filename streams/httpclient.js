@@ -1,10 +1,4 @@
-var http = require('http');
 var request = require ('request');
 
-var server = http.createServer(function (req, res) {
+process.stdin.pipe(request.post('http://localhost:8000')).pipe(process.stdout);
 
-	var r = request.post();
-	r.pipe(process.stdin).pipe(process.stdout);
-});
-
-server.listen(8001);
