@@ -2,7 +2,8 @@ var concat = require('concat-stream');
 
 function reverseString() {
 	return concat( function (data) {
-		console.log(data.toString());
+		var text = data.toString();
+		console.log(text.split('').reverse().join(''));
 	} )
 } 
 
